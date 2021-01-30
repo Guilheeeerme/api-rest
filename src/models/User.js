@@ -29,7 +29,7 @@ class User extends Model {
           },
         },
         password: {
-          type: Sequelize.STRING, // Não vai existir no db
+          type: Sequelize.VIRTUAL,
           defaultValue: "",
           validate: {
             len: {
@@ -38,14 +38,19 @@ class User extends Model {
             },
           },
         },
+        password_hash: {
+          type: Sequelize.STRING,
+        },
       },
       {
         sequelize,
       }
     );
     this.addHook("beforeSave", async (user) => {
-      user.password_hash = await bcryptjs.hash(String(user.password), 10);
-      // Pega o password, faz o hash e joga para o password_hash, que vai ser salvo do db
+      if (user.password) {
+        user.password_hash = await bcryptjs.hash(String(user.password), 10);
+        // Pega o password, faz o hash e joga para o password_hash, que vai ser salvo do db
+      }
     });
     return this;
   }
