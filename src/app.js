@@ -7,6 +7,7 @@ require("./database/index");
 
 const homeRoutes = require("./routes/homeRoutes");
 const userRoutes = require("./routes/userRoutes");
+const tokenRoutes = require("./routes/tokenRoutes");
 
 class App {
   constructor() {
@@ -22,7 +23,8 @@ class App {
 
   routes() {
     this.app.use("/", homeRoutes);
-    this.app.use("/users", userRoutes);
+    this.app.use("/users/", userRoutes);
+    this.app.use("/tokens/", tokenRoutes);
   }
 }
 
