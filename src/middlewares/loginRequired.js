@@ -1,6 +1,9 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import { promisify } from "util";
 
-const loginRequired = async (req, res, next) => {
+import authConfig from "../config/auth";
+
+export default async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -12,10 +15,10 @@ const loginRequired = async (req, res, next) => {
   const [texto, token] = authorization.split(" "); // Bearer token
 
   try {
-    const dados = await jwt.verify(token, process.env.TOKEN_SECRET);
-    const { id, email } = dados;
-    req.userId = id;
-    req.userEmail = email;
+    const dados = await promisify(jwt.verify)(token, authConfig.secret);
+
+    req.userId = dados.id;
+    req.userEmail = dados.email;
 
     return next();
   } catch (error) {
@@ -24,5 +27,3 @@ const loginRequired = async (req, res, next) => {
     });
   }
 };
-
-module.exports = loginRequired;

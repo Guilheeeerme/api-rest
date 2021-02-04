@@ -1,9 +1,9 @@
-const express = require("express");
+import { Router } from "express";
 
-const tokenController = require("../controllers/TokenController");
+import tokenController from "../controllers/TokenController";
 
-const router = express.Router();
+const router = Router();
 
 router.post("/", tokenController.store);
 
-module.exports = router;
+export default router;

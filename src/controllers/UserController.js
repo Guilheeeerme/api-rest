@@ -1,4 +1,4 @@
-const User = require("../models/User");
+import User from "../models/User";
 
 class UserController {
   async create(req, res) {
@@ -33,15 +33,7 @@ class UserController {
 
   async update(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json({
-          errors: ["ID não enviado."],
-        });
-      }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
@@ -50,9 +42,12 @@ class UserController {
       }
 
       const novosDados = await user.update(req.body);
-      return res.json(novosDados);
-    } catch (error) {
-      return res.json(null);
+      const { id, nome, email } = novosDados;
+      return res.json({ id, nome, email });
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
     }
   }
 
@@ -84,4 +79,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+export default new UserController();

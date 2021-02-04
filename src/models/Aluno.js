@@ -1,5 +1,4 @@
-// import { Sequelize, Model } from "sequelize";
-const { Sequelize, Model } = require("sequelize");
+import { Sequelize, Model } from "sequelize";
 
 class Aluno extends Model {
   static init(sequelize) {
@@ -20,4 +19,4 @@ class Aluno extends Model {
   }
 }
 
-module.exports = Aluno;
+export default Aluno;

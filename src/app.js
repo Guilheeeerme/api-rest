@@ -1,13 +1,13 @@
-const express = require("express");
-const dotenv = require("dotenv");
+import express from "express";
+import dotenv from "dotenv";
+
 dotenv.config();
 
-// import "./database/index.js"; // O arquivo de conexão, não precisa colocar em const
-require("./database/index");
+import "./database";
 
-const homeRoutes = require("./routes/homeRoutes");
-const userRoutes = require("./routes/userRoutes");
-const tokenRoutes = require("./routes/tokenRoutes");
+import homeRoutes from "./routes/homeRoutes";
+import userRoutes from "./routes/userRoutes";
+import tokenRoutes from "./routes/tokenRoutes";
 
 class App {
   constructor() {
@@ -28,4 +28,4 @@ class App {
   }
 }
 
-module.exports = new App().app;
+export default new App().app;

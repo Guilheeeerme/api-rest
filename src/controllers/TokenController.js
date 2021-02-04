@@ -1,6 +1,7 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-const User = require("../models/User");
+import User from "../models/User";
+import authConfig from "../config/auth";
 
 class TokenController {
   async store(req, res) {
@@ -27,12 +28,12 @@ class TokenController {
     }
 
     const { id } = user;
-    const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
-      expiresIn: process.env.TOKEN_EXPIRATION,
+    const token = jwt.sign({ id, email }, authConfig.secret, {
+      expiresIn: authConfig.expiresIn,
     });
 
     return res.json({ token });
   }
 }
 
-module.exports = new TokenController();
+export default new TokenController();

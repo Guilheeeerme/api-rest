@@ -1,14 +1,16 @@
-const express = require("express");
+import { Router } from "express";
 
-const userController = require("../controllers/UserController");
-const loginRequired = require("../middlewares/loginRequired");
+import userController from "../controllers/UserController";
+import loginRequired from "../middlewares/loginRequired";
 
-const router = express.Router();
+const router = Router();
 
-router.post("/", userController.create);
 router.get("/", loginRequired, userController.index);
 router.get("/:id", userController.show);
-router.put("/:id", userController.update);
-router.delete("/:id", userController.delete);
 
-module.exports = router;
+router.post("/", userController.create);
+
+router.put("/", userController.update);
+router.delete("/", userController.delete);
+
+export default router;
